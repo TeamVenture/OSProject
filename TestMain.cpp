@@ -9,8 +9,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
-//#include "WorkingSet.cpp"
 #include "ReplacementStrategies.cpp"
+#include "ReferenceSet.cpp"
 
 using namespace std;
 int RESIDENT_SET_SIZE;
