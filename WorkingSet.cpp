@@ -10,6 +10,7 @@
  *      Author: David Weathers
  */
 int const NUMBER_OF_PAGES = 10000;
+int const DIFFERENT_PAGES = 100;
 class WorkingSet
 {
 
@@ -31,7 +32,8 @@ public:
 		srand(time(0));
 		for (int i = 0; i < NUMBER_OF_PAGES; i++)
 			{
-			if(i%10 == 0)
+			double scatterer = rand()%100;
+			if(scatterer > 89)
 				{
 				workingSet[i] = (rand() % 90 + 10);
 				}
