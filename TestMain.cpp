@@ -143,25 +143,25 @@ int main()
 	{
 			GoodProgram a;
 			BadProgram b;
-			//WellBehavedModule c;
+			ReferenceSet c;
 			int* good = a.buildSet();
 			int* bad = b.buildSet();
-			//int* wellBehaved = c.buildSet();
+			int* realistic = c.buildSet();
 			printf("LRU-Good, LRU-Bad, LRU-Well Behaved, OPTIMAL-Good, OPTIMAL-Bad, OPTIMAL-Well Behaved, LOU-Good, LOU-Bad, LOU-Well Behaved\n");
 		for(int i = 1; i <= 50; i++){
 			RESIDENT_SET_SIZE = i;
 
 
-			//printf("d%",i);
-			printf("%d, ", LRU(good));
-			printf("%d, ", LRU(bad));
-			//printf("%d, ", LRU(wellBehaved));
-			printf("%d, ", Optimal(good));
-			printf("%d, ", Optimal(bad));
-			//printf("%d, ", Optimal(wellBehaved));
-			printf("%d, ", lou(good));
-			printf("%d\n", lou(bad));
-			//printf("%d\n", lou(wellBehaved));
+			printf("d%",i);
+			printf("%d,", LRU(good));
+			printf("%d,", LRU(bad));
+			printf("%d,", LRU(realistic));
+			printf("%d,", Optimal(good));
+			printf("%d,", Optimal(bad));
+			printf("%d,", Optimal(realistic));
+			printf("%d,", lou(good));
+			printf("%d", lou(bad));
+			printf("%d\n", lou(realistic));
 
 			}
 	return 0;
