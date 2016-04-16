@@ -51,7 +51,7 @@ class ReferenceSet
 			max = nextMax;
 			nextMax = -1;
 		}
-		printf("Percent of calls to top 10%% %2.2f", (double)topTenCount/(SIZE_OF_REFERENCESTRING/100.0));
+		printf("Percent of calls to top 10%% %2.2f", (double)topTenCount/(NUMBER_OF_REFERENCES/100.0));
 		cout << endl;
 	}
 };
@@ -70,15 +70,15 @@ public:
 			double scatterer = rand()%100;
 			if(scatterer > 89)
 			{
-				workingSet[i] = (rand() % 90 + 10);
+				referenceString[i] = (rand() % 90 + 10);
 			}
 			else
 			{
-				workingSet[i] = (rand() % 10);
+				referenceString[i] = (rand() % 10);
 			}
 
 		}
-		return workingSet;
+		return referenceString;
 	}
 	~GoodProgram(){};
 
@@ -175,7 +175,7 @@ public:
 	~WellBehavedModulesProgram(){};
 };
 
-class BadProgram2: public WorkingSet
+class BadProgram2: public ReferenceSet
 {
 public:
 	int* buildSet() {
@@ -187,15 +187,15 @@ public:
 		struct drand48_data localBuffer;
 
 		srand48_r(time(NULL) + (5002) + 1, &localBuffer);
-		array[0] = 0;
-		for (i = 1; i < size; i++) {
+		referenceString[0] = 0;
+		for (i = 1; i < NUMBER_OF_REFERENCES; i++) {
 			drand48_r(&localBuffer, &r);
 			if (r < .9) {
 				temp = (int) (r * (1.0 / .9) * 10.0);
 			} else {
 				temp = (int) ((r - .9) * 900 + 10);
 			}
-			if (temp != array[i - 1]) {
+			if (temp != referenceString[i - 1]) {
 				referenceString[i] = temp;
 //            printf("Calling Page %d: %d time\n", temp, pageCallCount[temp] +1);
 				workingSetCallCount[temp] = workingSetCallCount[temp] + 1;
