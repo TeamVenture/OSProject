@@ -9,18 +9,18 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
-#include "WorkingSet.cpp"
+//#include "WorkingSet.cpp"
 #include "ReplacementStrategies.cpp"
 
 using namespace std;
 int RESIDENT_SET_SIZE;
-//int NUMBER_OF_PAGES;
+//int NUMBER_OF_REFERENCES;
 int const BREAK_POINT = 40;
 
 int LRU(int arr[]){
 		list<int> residentSet;
 		int pageFault = 0;
-		for(int i = 0; i < NUMBER_OF_PAGES; i ++){
+		for(int i = 0; i < NUMBER_OF_REFERENCES; i ++){
 			if(residentSet.size() < RESIDENT_SET_SIZE && !(find(residentSet.begin(), residentSet.end(), arr[i]) != residentSet.end())){
 				pageFault++;
 				residentSet.push_back(arr[i]);
@@ -39,7 +39,7 @@ int LRU(int arr[]){
 	}
 
 int FutureGazing(int i, list<int> set, int* arr){
-	for (int j = i; j < NUMBER_OF_PAGES; j++){
+	for (int j = i; j < NUMBER_OF_REFERENCES; j++){
 		if(set.size() == 1){
 			return set.front();
 		}
@@ -54,7 +54,7 @@ int Optimal(int arr[]){
 	list<int> residentSet;
 	int pageFault = 0;
 	list<int> oracleSet;
-	for(int i = 0; i < NUMBER_OF_PAGES; i ++){
+	for(int i = 0; i < NUMBER_OF_REFERENCES; i ++){
 				if(residentSet.size() < RESIDENT_SET_SIZE && !(find(residentSet.begin(), residentSet.end(), arr[i]) != residentSet.end())){
 					pageFault++;
 					residentSet.push_back(arr[i]);
@@ -86,17 +86,17 @@ int leastOU(int count[], list<int> currentSet){
 }
 
 void resetMax(int count[]){
-	for (int i = 0; i < DIFFERENT_PAGES; i++){
+	for (int i = 0; i < NUMBER_OF_PAGES; i++){
 		count[i] = count[i]/2;
 	}
 }
 
 int lou(int arr[] ){
-	int count[DIFFERENT_PAGES];
+	int count[NUMBER_OF_PAGES];
 	int pageFault = 0;
 	list<int> residentSet;
 
-	for (int i = 0; i < NUMBER_OF_PAGES; i++){
+	for (int i = 0; i < NUMBER_OF_REFERENCES; i++){
 			if(residentSet.size()< RESIDENT_SET_SIZE) {
 				if  (!(find(residentSet.begin(), residentSet.end(), arr[i]) != residentSet.end())){
 				pageFault++;
@@ -143,7 +143,7 @@ int main()
 	{
 			GoodProgram a;
 			BadProgram b;
-			ReferenceSet c;
+			WellBehavedModulesSet c;
 			int* good = a.buildSet();
 			int* bad = b.buildSet();
 			int* realistic = c.buildSet();
