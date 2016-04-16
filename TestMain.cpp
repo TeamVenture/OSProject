@@ -8,11 +8,14 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <stdio.h>
 #include "WorkingSet.cpp"
 #include "ReplacementStrategies.cpp"
 
-int const RESIDENT_SET_SIZE = +10;
-//int const NUMBER_OF_PAGES = +100000;
+using namespace std;
+int RESIDENT_SET_SIZE;
+//int NUMBER_OF_PAGES;
+int const BREAK_POINT = 40;
 
 int LRU(int arr[]){
 		list<int> residentSet;
@@ -67,21 +70,100 @@ int Optimal(int arr[]){
 			return pageFault;
 		}
 
+int leastOU(int count[], list<int> currentSet){
+	int replace = 10000000;
+	int tempCount = 10000000;
+	while(!currentSet.empty()){
+		int temp = currentSet.front();
+		currentSet.pop_front();
+		if(count[temp] < tempCount){
+			replace = temp;
+			tempCount = count[temp];
+		}
+	}
+	return replace;
+
+}
+
+void resetMax(int count[]){
+	for (int i = 0; i < DIFFERENT_PAGES; i++){
+		count[i] = count[i]/2;
+	}
+}
+
+int lou(int arr[] ){
+	int count[DIFFERENT_PAGES];
+	int pageFault = 0;
+	list<int> residentSet;
+
+	for (int i = 0; i < NUMBER_OF_PAGES; i++){
+			if(residentSet.size()< RESIDENT_SET_SIZE) {
+				if  (!(find(residentSet.begin(), residentSet.end(), arr[i]) != residentSet.end())){
+				pageFault++;
+				residentSet.push_back(arr[i]);
+				count[i] = 1;
+				}
+				else {
+					count[arr[i]] = count[arr[i]] + 1;
+					if(count[arr[i]]>= BREAK_POINT){
+						resetMax(count);
+					}
+				}
+			}else {
+				if(!(find(residentSet.begin(), residentSet.end(), arr[i]) != residentSet.end())){
+				int temp = leastOU(count, residentSet);
+				residentSet.remove(temp);
+				residentSet.push_back(arr[i]);
+				count[arr[i]] = count[arr[i]] + 1;if(count[arr[i]]>= BREAK_POINT){
+					resetMax(count);
+				}
+				pageFault++;
+
+
+
+
+				}else{
+					count[arr[i]] = count[arr[i]] + 1;
+					if(count[arr[i]]>= BREAK_POINT){
+						resetMax(count);
+					}
+				}
+
+
+		}
+	}
+return pageFault;
+}
+
+
+
 
 
 int main()
 	{
-		GoodProgram a;
-		BadProgram b;
-		int* good = a.buildSet();
-		int* bad = b.buildSet();
+			GoodProgram a;
+			BadProgram b;
+			//WellBehavedModule c;
+			int* good = a.buildSet();
+			int* bad = b.buildSet();
+			//int* wellBehaved = c.buildSet();
+			printf("LRU-Good, LRU-Bad, LRU-Well Behaved, OPTIMAL-Good, OPTIMAL-Bad, OPTIMAL-Well Behaved, LOU-Good, LOU-Bad, LOU-Well Behaved\n");
+		for(int i = 1; i <= 50; i++){
+			RESIDENT_SET_SIZE = i;
 
-		std::cout << LRU(good) << endl;
-		std::cout << LRU(bad) << endl;
 
-		std::cout << Optimal(good) << endl;
-		std::cout << Optimal(bad) << endl;
+			//printf("d%",i);
+			printf("%d, ", LRU(good));
+			printf("%d, ", LRU(bad));
+			//printf("%d, ", LRU(wellBehaved));
+			printf("%d, ", Optimal(good));
+			printf("%d, ", Optimal(bad));
+			//printf("%d, ", Optimal(wellBehaved));
+			printf("%d, ", lou(good));
+			printf("%d\n", lou(bad));
+			//printf("%d\n", lou(wellBehaved));
 
+			}
 	return 0;
 	}
 
